@@ -46,6 +46,12 @@ app.get('/login', (req, res) => {
     '&show_dialog=true';
 
   // Redirect user to Spotify's authorization page
+  // Debug: log the authorize URL (without secrets)
+  try {
+    console.log('[DEBUG] /login -> authorizeUrl:', authorizeUrl);
+  } catch (e) {
+    console.warn('[DEBUG] failed to log authorizeUrl', e);
+  }
   res.redirect(authorizeUrl);
 });
 
@@ -53,6 +59,9 @@ app.get('/callback', async (req, res) => {
   const code = req.query.code;
   const state = req.query.state;
   const error = req.query.error;
+
+  // Debug: log incoming query params
+  console.log('[DEBUG] /callback hit. query:', req.query);
 
   if (error) {
     // Redirect back to frontend with error
@@ -79,7 +88,19 @@ app.get('/callback', async (req, res) => {
       })
     });
 
-    const tokenJson = await tokenRes.json();
+    // Attempt to parse token response and log it for debugging
+    let tokenJson;
+    try {
+      tokenJson = await tokenRes.json();
+    } catch (parseErr) {
+      console.error('[DEBUG] Failed to parse token response JSON', parseErr);
+      console.error('[DEBUG] tokenRes status:', tokenRes.status, 'statusText:', tokenRes.statusText);
+      const url = `${FRONTEND_URL}/#/spotify-connect?error=token_exchange_failed&state=${encodeURIComponent(state||'')}`;
+      return res.redirect(url);
+    }
+
+    // Debug: log full token response (may contain access_token)
+    console.log('[DEBUG] token exchange response status:', tokenRes.status, 'body:', tokenJson);
 
     if (!tokenRes.ok) {
       console.error('Token exchange failed', tokenJson);
