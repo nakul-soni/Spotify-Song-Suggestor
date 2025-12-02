@@ -116,9 +116,12 @@ app.get('/callback', async (req, res) => {
       obtained_at: Date.now()
     };
 
-    // Redirect back to frontend and include hasTokens so front-end can detect
-    const url = `${FRONTEND_URL}/#/spotify-connect?hasTokens=true&state=${encodeURIComponent(state)}`;
-    return res.redirect(url);
+    // Redirect back to frontend and include hasTokens so front-end can detect.
+    // Place query params before the hash to ensure browsers expose them reliably
+    // (some SPA routers can make params inside the hash harder to read).
+    const redirectUrl = `${FRONTEND_URL}/?hasTokens=true&state=${encodeURIComponent(state)}#/spotify-connect`;
+    console.log('[DEBUG] redirecting to frontend:', redirectUrl);
+    return res.redirect(redirectUrl);
   } catch (err) {
     console.error('Callback error', err);
     const url = `${FRONTEND_URL}/#/spotify-connect?error=server_error&state=${encodeURIComponent(state||'')}`;
