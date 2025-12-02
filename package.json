@@ -1,0 +1,18 @@
+{
+  "name": "personal-soundtrack-generator",
+  "version": "1.0.0",
+  "description": "AI-powered Personal Soundtrack Generator with Spotify integration",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000",
+    "build": "tailwindcss -i ./styles.css -o ./dist/output.css --minify"
+  },
+  "keywords": ["spotify", "music", "playlist", "ai", "angularjs", "tailwind"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^4.0.0",
+    "live-server": "^1.2.2"
+  }
+}
+
