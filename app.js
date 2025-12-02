@@ -294,7 +294,19 @@ app.service('SpotifyService', ['$q', '$http', function($q, $http) {
   };
   
   this.handleAuthRedirect = function(url) {
-    var query = url.split('?')[1];
+    // Support redirects that put params in the main query OR inside the hash fragment.
+    var query = null;
+    // If the URL contains a hash (#), check for query params inside the hash first
+    if (url.indexOf('#') !== -1) {
+      var hash = url.split('#')[1] || '';
+      if (hash.indexOf('?') !== -1) {
+        query = hash.split('?')[1];
+      }
+    }
+    // Fallback to regular query string if none found in the hash
+    if (!query && url.indexOf('?') !== -1) {
+      query = url.split('?')[1];
+    }
     if (!query) return $q.resolve(false);
     var params = new URLSearchParams(query);
     if (params.get('error')) {
