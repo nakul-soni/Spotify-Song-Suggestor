@@ -5,14 +5,25 @@
   "main": "index.html",
   "scripts": {
     "dev": "live-server --port=3000",
-    "build": "tailwindcss -i ./styles.css -o ./dist/output.css --minify"
+    "build": "tailwindcss -i ./styles.css -o ./dist/output.css --minify",
+    "postinstall": "cd server && npm install",
+    "start": "node server/server.js"
   },
-  "keywords": ["spotify", "music", "playlist", "ai", "angularjs", "tailwind"],
+  "keywords": [
+    "spotify",
+    "music",
+    "playlist",
+    "ai",
+    "angularjs",
+    "tailwind"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "tailwindcss": "^4.0.0",
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }
-
