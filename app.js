@@ -260,7 +260,7 @@ app.service('AuthService', ['$q', '$timeout', function($q, $timeout) {
 
 app.service('SpotifyService', ['$q', '$http', function($q, $http) {
   var self = this;
-  var API_BASE = 'https://soundtrackgen-backend.onrender.com';
+  var API_BASE = 'https://spotify-song-suggestor-hsbr.onrender.com';
   var STORAGE_KEYS = {
     SPOTIFY_STATE: 'spotify_state',
     AUTH_FLAG: 'spotify_connected'
